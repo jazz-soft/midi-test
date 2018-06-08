@@ -1,0 +1,26 @@
+{
+  "name": "midi-test",
+  "version": "0.0.1",
+  "description": "Coming soon...",
+  "main": "build/Release/miditest",
+  "scripts": {
+    "test": "node test.js",
+    "install": "node-gyp rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jazz-soft/midi-test.git"
+  },
+  "keywords": [
+    "MIDI",
+    "midi",
+    "test"
+  ],
+  "author": "jazz-soft (http://jazz-soft.net/)",
+  "license": "MIT",
+  "gypfile": true,
+  "bugs": {
+    "url": "https://github.com/jazz-soft/midi-test/issues"
+  },
+  "homepage": "https://github.com/jazz-soft/midi-test#readme"
+}
