@@ -9,6 +9,7 @@ public:
     std::string m_name;
 };
 
+
 class CSrc : public CMidi
 {
 public:
@@ -16,6 +17,7 @@ public:
     ~CSrc();
     bool connect();
     bool disconnect();
+    bool emit(const std::vector<unsigned char>& msg);
 };
 
 

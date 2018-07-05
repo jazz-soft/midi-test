@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 #include <iostream>
 #include "miditest.h"
 
@@ -26,6 +27,21 @@ bool CSrc::disconnect()
 {
     std::cout << "Disconnecting CSrc: " << m_name << "\n";
     m_connected = false;
+    return true;
+}
+
+
+bool CSrc::emit(const std::vector<unsigned char>& msg)
+{
+    if (!m_connected || !msg.size()) return false;
+    std::cout << m_name << " emits:";
+    for (auto c: msg) {
+        std::cout << " ";
+        std::cout.width(2);
+        std::cout.fill('0');
+        std::cout << std::hex << (int)c;
+    }
+    std::cout << "\n";
     return true;
 }
 
