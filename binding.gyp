@@ -19,7 +19,6 @@
             {
               "libraries": [ "CoreMIDI.framework" ]
             }
-
           }
         ],
         [
