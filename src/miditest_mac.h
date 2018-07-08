@@ -7,7 +7,6 @@ public:
     bool disconnect();
     bool emit(const std::vector<unsigned char>& msg);
 protected:
-    MIDIClientRef m_Client;
     MIDIEndpointRef m_Midi;
 };
 
@@ -19,4 +18,6 @@ public:
     ~CDst();
     bool connect();
     bool disconnect();
+protected:
+    MIDIEndpointRef m_Midi;
 };

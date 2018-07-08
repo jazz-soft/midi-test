@@ -163,6 +163,14 @@ napi_value MidiDst(napi_env env, napi_callback_info args)
 }
 
 
+void MidiCallback(void* obj, const std::vector<unsigned char>& msg)
+{
+    std::cout << "MIDI Callback:";
+    for (size_t i = 0; i < msg.size(); i++) std::cout << " " << (int)msg[i];
+    std::cout << "\n";
+}
+
+
 napi_value init(napi_env env, napi_value exports)
 {
     napi_value ctor;

@@ -38,3 +38,7 @@ public:
     CMidiDst(const std::string& name) : CMidi(name) {}
     ~CMidiDst() {}
 };
+
+namespace miditest {
+void MidiCallback(void* obj, const std::vector<unsigned char>& msg);
+}
