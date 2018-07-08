@@ -2,22 +2,26 @@
 #include <vector>
 #include <iostream>
 #include "miditest.h"
+#include "miditest_mac.h"
 
-CSrc::CSrc(const std::string& name) : CMidi(name)
+CMidiSrc* CMidi::CreateSrc(const std::string& name) { return new CSrc(name); }
+CMidiDst* CMidi::CreateDst(const std::string& name) { return new CDst(name); }
+
+CSrc::CSrc(const std::string& name) : CMidiSrc(name)
 {
-    std::cout << "Creating CSrc: " << m_name << "\n";
+    std::cout << "Creating MacOS CSrc: " << m_name << "\n";
 }
 
 
 CSrc::~CSrc()
 {
-    std::cout << "Destroying CSrc\n";
+    std::cout << "Destroying MacOS CSrc\n";
 }
 
 
 bool CSrc::connect()
 {
-    std::cout << "Connecting CSrc: " << m_name << "\n";
+    std::cout << "Connecting MacOS CSrc: " << m_name << "\n";
     m_connected = true;
     return true;
 }
@@ -25,7 +29,7 @@ bool CSrc::connect()
 
 bool CSrc::disconnect()
 {
-    std::cout << "Disconnecting CSrc: " << m_name << "\n";
+    std::cout << "Disconnecting MacOS CSrc: " << m_name << "\n";
     m_connected = false;
     return true;
 }
@@ -46,21 +50,21 @@ bool CSrc::emit(const std::vector<unsigned char>& msg)
 }
 
 
-CDst::CDst(const std::string& name) : CMidi(name)
+CDst::CDst(const std::string& name) : CMidiDst(name)
 {
-    std::cout << "Creating CDst: " << m_name << "\n";
+    std::cout << "Creating MacOS CDst: " << m_name << "\n";
 }
 
 
 CDst::~CDst()
 {
-    std::cout << "Destroying CDst\n";
+    std::cout << "Destroying MacOS CDst\n";
 }
 
 
 bool CDst::connect()
 {
-    std::cout << "Connecting CDst: " << m_name << "\n";
+    std::cout << "Connecting MacOS CDst: " << m_name << "\n";
     m_connected = true;
     return true;
 }
@@ -68,7 +72,7 @@ bool CDst::connect()
 
 bool CDst::disconnect()
 {
-    std::cout << "Disconnecting CDst: " << m_name << "\n";
+    std::cout << "Disconnecting MacOS CDst: " << m_name << "\n";
     m_connected = false;
     return true;
 }

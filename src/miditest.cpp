@@ -38,9 +38,8 @@ napi_value name(napi_env env, napi_callback_info args)
     CMidi* ptr;
     XX (napi_get_cb_info(env, args, 0, 0, &self, 0));
     XX (napi_unwrap(env, self, (void**)&ptr));
-    ptr->m_name;
     napi_value value;
-    XX (napi_create_string_utf8(env, ptr->m_name.c_str(), ptr->m_name.length(), &value));
+    XX (napi_create_string_utf8(env, ptr->name().c_str(), ptr->name().length(), &value));
     return value;
 }
 
@@ -52,7 +51,7 @@ napi_value connected(napi_env env, napi_callback_info args)
     XX (napi_get_cb_info(env, args, 0, 0, &self, 0));
     XX (napi_unwrap(env, self, (void**)&ptr));
     napi_value value;
-    XX (napi_get_boolean(env, ptr->m_connected, &value));
+    XX (napi_get_boolean(env, ptr->connected(), &value));
     return value;
 }
 
@@ -89,7 +88,7 @@ napi_value emit(napi_env env, napi_callback_info args)
     napi_value value;
     napi_value number;
     bool bbb;
-    CSrc* ptr;
+    CMidiSrc* ptr;
     uint32_t len;
     uint32_t num;
     XX (napi_get_cb_info(env, args, &argc, argv, &self, 0));
@@ -137,7 +136,7 @@ napi_value MidiSrc(napi_env env, napi_callback_info args)
         return self;
     }
     std::string str = read_utf8(env, argv[0]);
-    CSrc* Src = new CSrc(str);
+    CMidiSrc* Src = CMidi::CreateSrc(str);
     XX (napi_wrap(env, self, Src, destroy, 0, 0));
     return self;
 }
@@ -158,7 +157,7 @@ napi_value MidiDst(napi_env env, napi_callback_info args)
         return self;
     }
     std::string str = read_utf8(env, argv[0]);
-    CDst* Dst = new CDst(str);
+    CMidiDst* Dst = CMidi::CreateDst(str);
     XX (napi_wrap(env, self, Dst, destroy, 0, 0));
     return self;
 }

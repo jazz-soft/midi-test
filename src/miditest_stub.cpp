@@ -2,8 +2,12 @@
 #include <vector>
 #include <iostream>
 #include "miditest.h"
+#include "miditest_stub.h"
 
-CSrc::CSrc(const std::string& name) : CMidi(name)
+CMidiSrc* CMidi::CreateSrc(const std::string& name) { return new CSrc(name); }
+CMidiDst* CMidi::CreateDst(const std::string& name) { return new CDst(name); }
+
+CSrc::CSrc(const std::string& name) : CMidiSrc(name)
 {
     std::cout << "Creating CSrc: " << m_name << "\n";
 }
@@ -46,7 +50,7 @@ bool CSrc::emit(const std::vector<unsigned char>& msg)
 }
 
 
-CDst::CDst(const std::string& name) : CMidi(name)
+CDst::CDst(const std::string& name) : CMidiDst(name)
 {
     std::cout << "Creating CDst: " << m_name << "\n";
 }

@@ -3,4 +3,5 @@
 
 Coming soon...
 
-Build: `node-gyp build`
+Build: `npm install`  
+Rebuild: `node-gyp rebuild`
