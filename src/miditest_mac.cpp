@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <CoreMIDI/MIDIServices.h>
 #include "miditest.h"
 #include "miditest_mac.h"
 
@@ -10,6 +11,9 @@ CMidiDst* CMidi::CreateDst(const std::string& name) { return new CDst(name); }
 CSrc::CSrc(const std::string& name) : CMidiSrc(name)
 {
     std::cout << "Creating MacOS CSrc: " << m_name << "\n";
+    OSStatus result;
+    result = MIDIClientCreate(CFSTR("midi-test"), NULL, NULL, &m_Client);
+    std::cout << "MIDIClientCreate: " << result << "\n";
 }
 
 
@@ -22,6 +26,9 @@ CSrc::~CSrc()
 bool CSrc::connect()
 {
     std::cout << "Connecting MacOS CSrc: " << m_name << "\n";
+    OSStatus result;
+    result = MIDISourceCreate(m_Client, CFStringCreateWithCString(0, m_name.c_str(), kCFStringEncodingUTF8), &m_Midi);
+    std::cout << "MIDISourceCreate: " << result << "\n";
     m_connected = true;
     return true;
 }

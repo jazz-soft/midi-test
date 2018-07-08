@@ -6,6 +6,9 @@ public:
     bool connect();
     bool disconnect();
     bool emit(const std::vector<unsigned char>& msg);
+protected:
+    MIDIClientRef m_Client;
+    MIDIEndpointRef m_Midi;
 };
 
 
