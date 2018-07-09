@@ -56,12 +56,14 @@ bool CSrc::emit(const std::vector<unsigned char>& msg)
 {
     if (!m_connected || !msg.size()) return false;
     size_t bufsize = msg.size() + 64; // where does 64 come from?
-    unsigned char* buf = new unsigned char(bufsize);
+    unsigned char* buf = new unsigned char[bufsize];
     MIDIPacketList* pktList = (MIDIPacketList*) buf;
     MIDIPacket *pkt;
     pkt = MIDIPacketListInit(pktList);
     pkt = MIDIPacketListAdd(pktList, bufsize, pkt, 0, msg.size(), msg.data());
-    return (!MIDIReceived(m_Midi, pktList));
+    bool result = !MIDIReceived(m_Midi, pktList);
+    delete[] buf;
+    return result;
 }
 
 

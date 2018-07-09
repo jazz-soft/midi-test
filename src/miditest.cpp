@@ -1,5 +1,6 @@
 #include <node_api.h>
 #include <vector>
+#include <map>
 #include <iostream>
 #include "miditest.h"
 
@@ -9,6 +10,7 @@ namespace miditest {
 
 napi_ref MidiSrc_ctor;
 napi_ref MidiDst_ctor;
+std::map<void*, napi_ref> Callbacks;
 
 
 std::string read_utf8(napi_env env, napi_value obj)
@@ -163,6 +165,51 @@ napi_value MidiDst(napi_env env, napi_callback_info args)
 }
 
 
+napi_value get_receive(napi_env env, napi_callback_info args)
+{
+    napi_value self;
+    napi_value value;
+    CMidi* ptr;
+    XX (napi_get_cb_info(env, args, 0, 0, &self, 0));
+    XX (napi_unwrap(env, self, (void**)&ptr));
+    if (Callbacks.find(ptr) == Callbacks.end()) {
+      XX (napi_get_undefined(env, &value));
+      return value;
+    }
+    XX (napi_get_reference_value(env, Callbacks[ptr], &value));
+    return value;
+}
+
+
+napi_value set_receive(napi_env env, napi_callback_info args)
+{
+    size_t argc = 1;
+    napi_value argv[1];
+    napi_value self;
+    napi_value value;
+    napi_valuetype type;
+    napi_ref ref;
+    CMidi* ptr;
+
+    XX (napi_get_cb_info(env, args, &argc, argv, &self, 0));
+    XX (napi_unwrap(env, self, (void**)&ptr));
+
+    XX (napi_typeof(env, argv[0], &type));
+    if (type == napi_function) {
+        XX (napi_create_reference(env, argv[0], 1, &ref));
+        Callbacks[ptr] = ref;
+    }
+    else if (type == napi_undefined) {
+        Callbacks.erase(ptr);
+    }
+    else {
+        napi_throw_type_error(env, "MIDI callback", "expected Function or undefined");
+    }
+    XX (napi_get_undefined(env, &value));
+    return value;
+}
+
+
 void MidiCallback(void* obj, const std::vector<unsigned char>& msg)
 {
     std::cout << "MIDI Callback:";
@@ -186,7 +233,8 @@ napi_value init(napi_env env, napi_value exports)
         { "connect", 0, connect, 0, 0, 0, napi_enumerable, 0 },
         { "disconnect", 0, disconnect, 0, 0, 0, napi_enumerable, 0 },
         { "connected", 0, 0, connected, 0, 0, napi_enumerable, 0 },
-        { "name", 0, 0, name, 0, 0, napi_enumerable, 0 }
+        { "name", 0, 0, name, 0, 0, napi_enumerable, 0 },
+        { "receive", 0, 0, get_receive, set_receive, 0, napi_enumerable, 0 }
     };
 
     XX (napi_define_class(env, "MidiSrc", NAPI_AUTO_LENGTH, MidiSrc, 0, sizeof Src / sizeof Src[0], Src, &ctor));
@@ -203,3 +251,4 @@ napi_value init(napi_env env, napi_value exports)
 NAPI_MODULE(NODE_GYP_MODULE_NAME, init)
 
 }  // namespace miditest
+
