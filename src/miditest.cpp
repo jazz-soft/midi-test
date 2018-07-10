@@ -11,6 +11,7 @@ namespace miditest {
 napi_ref MidiSrc_ctor;
 napi_ref MidiDst_ctor;
 std::map<void*, napi_ref> Callbacks;
+napi_threadsafe_function TSF;
 
 
 std::string read_utf8(napi_env env, napi_value obj)
@@ -190,10 +191,8 @@ napi_value set_receive(napi_env env, napi_callback_info args)
     napi_valuetype type;
     napi_ref ref;
     CMidi* ptr;
-
     XX (napi_get_cb_info(env, args, &argc, argv, &self, 0));
     XX (napi_unwrap(env, self, (void**)&ptr));
-
     XX (napi_typeof(env, argv[0], &type));
     if (type == napi_function) {
         XX (napi_create_reference(env, argv[0], 1, &ref));
@@ -210,8 +209,9 @@ napi_value set_receive(napi_env env, napi_callback_info args)
 }
 
 
-void MidiCallback(void* obj, const std::vector<unsigned char>& msg)
+void MidiCallback(void* ptr, const std::vector<unsigned char>& msg)
 {
+    //if (Callbacks.find(ptr) == Callbacks.end()) return;
     std::cout << "MIDI Callback:";
     for (size_t i = 0; i < msg.size(); i++) std::cout << " " << (int)msg[i];
     std::cout << "\n";

@@ -24,7 +24,7 @@
         [
           "OS=='linux'",
           {
-            "sources": [ "src/miditest_stub.cpp" ]
+            "sources": [ "src/miditest_linux.cpp" ]
           }
         ]
       ]
