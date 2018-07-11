@@ -9,6 +9,7 @@ public:
     virtual ~CMidi() {}
     virtual bool connect() = 0;
     virtual bool disconnect() = 0;
+    virtual bool threaded() { return false; }
     const std::string& name() const { return m_name; }
     bool connected() const { return m_connected; }
     static CMidiSrc* CreateSrc(const std::string& name);
@@ -37,8 +38,18 @@ class CMidiDst : public CMidi
 public:
     CMidiDst(const std::string& name) : CMidi(name) {}
     ~CMidiDst() {}
+    virtual bool threaded() { return true; }
 };
 
+
+struct CMidiData
+{
+    CMidiData(CMidiDst* d) : dst(d) {}
+    CMidiDst* dst;
+    std::vector<unsigned char> msg;
+};
+
+
 namespace miditest {
-void MidiCallback(void* obj, const std::vector<unsigned char>& msg);
+void MidiCallback(CMidiData* data);
 }

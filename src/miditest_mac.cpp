@@ -81,11 +81,11 @@ void MidiProc(const MIDIPacketList* pktlist, void* data, void* dummy)
 {
     MIDIPacket* pkt = (MIDIPacket*)pktlist->packet;
     size_t count = pktlist->numPackets;
-    std::vector<unsigned char> msg;
+    CMidiData* midi = new CMidiData((CMidiData*)data);
     for (size_t i = 0; i < count; i++) {
-        for (size_t j = 0; j < pkt->length; j++) msg.push_back(pkt->data[j]);
+        for (size_t j = 0; j < pkt->length; j++) midi->msg.push_back(pkt->data[j]);
     }
-    MidiCallback(data, msg);
+    MidiCallback(midi);
 }
 
 bool CDst::connect()

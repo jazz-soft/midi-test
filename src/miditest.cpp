@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include <memory>
 #include "miditest.h"
 
 #define XX(x) if (x) return 0;
@@ -13,6 +14,7 @@ napi_ref MidiSrc_ctor;
 napi_ref MidiDst_ctor;
 std::map<void*, napi_ref> Callbacks;
 napi_threadsafe_function TSF;
+size_t Connections = 0;
 
 
 std::string read_utf8(napi_env env, napi_value obj)
@@ -30,6 +32,53 @@ std::string read_utf8(napi_env env, napi_value obj)
         delete[] buf;
     }
     return str;
+}
+
+
+void MidiCallback(CMidiData* data) { napi_call_threadsafe_function(TSF, data, napi_tsfn_nonblocking); }
+napi_value MidiThread(napi_env env, napi_callback_info args) { return 0; }
+
+
+void MidiReceived(napi_env env, napi_value js_callback, void* context, void* data)
+{
+    std::unique_ptr<CMidiData> midi((CMidiData*)data);
+    if (midi->msg.size()) {
+        if (Callbacks.find(midi->dst) != Callbacks.end()) {
+            napi_value func;
+            napi_value undef;
+            napi_value arr;
+            napi_value value;
+            if (napi_get_reference_value(env, Callbacks[midi->dst], &func)) return;
+            if (napi_get_undefined(env, &undef)) return;
+            if (napi_create_array(env, &arr)) return;
+            for (size_t i = 0; i < midi->msg.size(); i++) {
+                if (napi_create_uint32(env, midi->msg[i], &value)) return;
+                if (napi_set_element(env, arr, i, value)) return;
+            }
+            napi_call_function(env, undef, func, 1, &arr, &value);
+        }
+        else {
+            std::cout << "MIDI data received:";
+            for (size_t i = 0; i < midi->msg.size(); i++) std::cout << " " << (int)midi->msg[i];
+            std::cout << "\n";
+        }
+    }
+}
+
+
+void start_thread(napi_env env)
+{
+    napi_value value;
+    napi_value func;
+    if (napi_create_function(env, 0, 0, MidiThread, 0, &func)) return;
+    if (napi_create_string_utf8(env, "no_name", NAPI_AUTO_LENGTH, &value)) return;
+    if (napi_create_threadsafe_function(env, func, 0, value, 0, 1, 0, 0, 0, MidiReceived, &TSF)) return;
+}
+
+
+void stop_thread(napi_env env)
+{
+    napi_unref_threadsafe_function(env, TSF);
 }
 
 
@@ -67,7 +116,12 @@ napi_value connect(napi_env env, napi_callback_info args)
     CMidi* ptr;
     XX (napi_get_cb_info(env, args, 0, 0, &self, 0));
     XX (napi_unwrap(env, self, (void**)&ptr));
-    XX (napi_get_boolean(env, ptr->connect(), &value));
+    bool connected = ptr->connect();
+    XX (napi_get_boolean(env, connected, &value));
+    if (connected && ptr->threaded()) {
+        if (!Connections) start_thread(env);
+        Connections++;
+    }
     return value;
 }
 
@@ -79,7 +133,12 @@ napi_value disconnect(napi_env env, napi_callback_info args)
     CMidi* ptr;
     XX (napi_get_cb_info(env, args, 0, 0, &self, 0));
     XX (napi_unwrap(env, self, (void**)&ptr));
-    XX (napi_get_boolean(env, ptr->disconnect(), &value));
+    bool disconnected = ptr->disconnect();
+    XX (napi_get_boolean(env, disconnected, &value));
+    if (disconnected && ptr->threaded()) {
+        Connections--;
+        if (!Connections) stop_thread(env);
+    }
     return value;
 }
 
@@ -191,7 +250,7 @@ napi_value set_receive(napi_env env, napi_callback_info args)
     napi_value value;
     napi_valuetype type;
     napi_ref ref;
-    CMidi* ptr;
+    CMidiDst* ptr;
     XX (napi_get_cb_info(env, args, &argc, argv, &self, 0));
     XX (napi_unwrap(env, self, (void**)&ptr));
     XX (napi_typeof(env, argv[0], &type));
@@ -207,15 +266,6 @@ napi_value set_receive(napi_env env, napi_callback_info args)
     }
     XX (napi_get_undefined(env, &value));
     return value;
-}
-
-
-void MidiCallback(void* ptr, const std::vector<unsigned char>& msg)
-{
-    //if (Callbacks.find(ptr) == Callbacks.end()) return;
-    std::cout << "MIDI Callback:";
-    for (size_t i = 0; i < msg.size(); i++) std::cout << " " << (int)msg[i];
-    std::cout << "\n";
 }
 
 
