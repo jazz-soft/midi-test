@@ -34,7 +34,7 @@ CSrc::~CSrc()
 
 bool CSrc::connect()
 {
-    if (!MIDISourceCreate(GetMidiClient(), CFStringCreateWithCString(0, m_name.c_str(), kCFStringEncodingUTF8), &m_Midi)) {
+    if (!m_connected && !MIDISourceCreate(GetMidiClient(), CFStringCreateWithCString(0, m_name.c_str(), kCFStringEncodingUTF8), &m_Midi)) {
       m_connected = true;
       return true;
     }
@@ -81,7 +81,7 @@ void MidiProc(const MIDIPacketList* pktlist, void* data, void* dummy)
 {
     MIDIPacket* pkt = (MIDIPacket*)pktlist->packet;
     size_t count = pktlist->numPackets;
-    CMidiData* midi = new CMidiData((CMidiData*)data);
+    CMidiData* midi = new CMidiData((CMidiDst*)data);
     for (size_t i = 0; i < count; i++) {
         for (size_t j = 0; j < pkt->length; j++) midi->msg.push_back(pkt->data[j]);
     }
@@ -90,7 +90,7 @@ void MidiProc(const MIDIPacketList* pktlist, void* data, void* dummy)
 
 bool CDst::connect()
 {
-    if (!MIDIDestinationCreate(GetMidiClient(), CFStringCreateWithCString(0, m_name.c_str(), kCFStringEncodingUTF8), MidiProc, this,  &m_Midi)) {
+    if (!m_connected && !MIDIDestinationCreate(GetMidiClient(), CFStringCreateWithCString(0, m_name.c_str(), kCFStringEncodingUTF8), MidiProc, this,  &m_Midi)) {
       m_connected = true;
       return true;
     }
