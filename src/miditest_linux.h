@@ -6,6 +6,8 @@ public:
     bool connect();
     bool disconnect();
     bool emit(const std::vector<unsigned char>& msg);
+protected:
+    snd_rawmidi_t* m_Handle;
 };
 
 
@@ -16,4 +18,6 @@ public:
     ~CDst();
     bool connect();
     bool disconnect();
+protected:
+    snd_rawmidi_t* m_Handle;
 };

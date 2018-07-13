@@ -24,7 +24,9 @@
         [
           "OS=='linux'",
           {
-            "sources": [ "src/miditest_linux.cpp" ]
+            "sources": [ "src/miditest_linux.cpp" ],
+            "cflags":["-Wno-sign-compare"],
+            "libraries":['-lasound']
           }
         ]
       ]
