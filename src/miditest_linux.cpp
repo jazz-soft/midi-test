@@ -8,9 +8,8 @@
 CMidiSrc* CMidi::CreateSrc(const std::string& name) { return new CSrc(name); }
 CMidiDst* CMidi::CreateDst(const std::string& name) { return new CDst(name); }
 
-CSrc::CSrc(const std::string& name) : CMidiSrc(name), m_Handle(0)
+CSrc::CSrc(const std::string& name) : CMidiSrc(name)
 {
-    std::cout << "Creating CSrc: " << m_name << "\n";
 }
 
 
@@ -22,8 +21,12 @@ CSrc::~CSrc()
 
 bool CSrc::connect()
 {
-    std::cout << "Connecting CSrc: " << m_name << "\n";
-    if(!m_connected && !snd_rawmidi_open(0, &m_Handle, "virtual", 0)) {
+    if(!m_connected) {
+        if (snd_seq_open(&m_Seq, "default", SND_SEQ_OPEN_OUTPUT, 0)) {
+            std::cout << "error 1\n";
+            return false;
+        }
+        m_Port = snd_seq_create_simple_port(m_Seq, m_name.c_str(), SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
         m_connected = true;
         return true;
     }
@@ -33,9 +36,8 @@ bool CSrc::connect()
 
 bool CSrc::disconnect()
 {
-    std::cout << "Disconnecting CSrc: " << m_name << "\n";
     if (m_connected) {
-        snd_rawmidi_close(m_Handle);
+        snd_seq_close(m_Seq);
         m_connected = false;
         return true;
     }
@@ -46,19 +48,22 @@ bool CSrc::disconnect()
 bool CSrc::emit(const std::vector<unsigned char>& msg)
 {
     if (!m_connected || !msg.size()) return false;
-    std::cout << m_name << " emits:";
-    for (auto c: msg) {
-        std::cout << " ";
-        std::cout.width(2);
-        std::cout.fill('0');
-        std::cout << std::hex << (int)c;
-    }
-    std::cout << "\n";
+    snd_midi_event_t* midi;
+    if (snd_midi_event_new(msg.size(), &midi)) return false;
+    snd_seq_event_t ev;
+    snd_seq_ev_clear(&ev);
+    snd_seq_ev_set_source(&ev, m_Port);
+    snd_seq_ev_set_subs(&ev);
+    snd_seq_ev_set_direct(&ev);
+    snd_midi_event_encode(midi, msg.data(), msg.size(), &ev);
+    snd_midi_event_free(midi);
+    snd_seq_event_output(m_Seq, &ev);
+    snd_seq_drain_output(m_Seq);
     return true;
 }
 
 
-CDst::CDst(const std::string& name) : CMidiDst(name), m_Handle(0)
+CDst::CDst(const std::string& name) : CMidiDst(name)
 {
     std::cout << "Creating CDst: " << m_name << "\n";
 }

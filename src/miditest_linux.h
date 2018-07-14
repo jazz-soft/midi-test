@@ -7,7 +7,8 @@ public:
     bool disconnect();
     bool emit(const std::vector<unsigned char>& msg);
 protected:
-    snd_rawmidi_t* m_Handle;
+    snd_seq_t* m_Seq;
+    int m_Port;
 };
 
 
@@ -19,5 +20,6 @@ public:
     bool connect();
     bool disconnect();
 protected:
-    snd_rawmidi_t* m_Handle;
+    snd_seq_t* m_Seq;
+    int m_Port;
 };
