@@ -5,3 +5,6 @@ Coming soon...
 
 Build: `npm install`  
 Rebuild: `node-gyp rebuild`
+
+Linux build requires ALSA:  
+`apt-get install libasound2-dev`
