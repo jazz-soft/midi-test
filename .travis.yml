@@ -1,16 +1,10 @@
-dist: trusty
-sudo: required
 language: node_js
 node_js:
   - node
 os:
   - linux
   - osx
-env:
-  - AUDIODEV=null
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y libasound2-dev ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo modprobe snd-dummy ; fi
 script:
-  - echo "running my stupid script"
-  - sudo npm test
+  - sudo mocha
