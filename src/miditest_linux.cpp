@@ -65,7 +65,6 @@ bool CSrc::emit(const std::vector<unsigned char>& msg)
 
 CDst::CDst(const std::string& name) : CMidiDst(name)
 {
-    std::cout << "Creating CDst: " << m_name << "\n";
 }
 
 
@@ -77,15 +76,25 @@ CDst::~CDst()
 
 bool CDst::connect()
 {
-    std::cout << "Connecting CDst: " << m_name << "\n";
-    m_connected = true;
-    return true;
+    if(!m_connected) {
+        if (snd_seq_open(&m_Seq, "default", SND_SEQ_OPEN_INPUT, 0)) {
+            std::cout << "error 1\n";
+            return false;
+        }
+        m_Port = snd_seq_create_simple_port(m_Seq, m_name.c_str(), SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
+        m_connected = true;
+        return true;
+    }
+    return false;
 }
 
 
 bool CDst::disconnect()
 {
-    std::cout << "Disconnecting CDst: " << m_name << "\n";
-    m_connected = false;
-    return true;
+    if (m_connected) {
+        snd_seq_close(m_Seq);
+        m_connected = false;
+        return true;
+    }
+    return false;
 }
