@@ -20,6 +20,8 @@ public:
     bool connect();
     bool disconnect();
 protected:
+    static void loop(CDst*);
     snd_seq_t* m_Seq;
     int m_Port;
+    std::thread* m_Thread;
 };

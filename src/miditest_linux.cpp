@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <thread>
 #include <alsa/asoundlib.h>
 #include "miditest.h"
 #include "miditest_linux.h"
@@ -74,6 +75,26 @@ CDst::~CDst()
 }
 
 
+void CDst::loop(CDst* dst)
+{
+    std::cout << "Running loop\n";
+    int npfd = snd_seq_poll_descriptors_count(dst->m_Seq, POLLIN);
+    pollfd *pfd = (pollfd*)alloca(npfd * sizeof(pollfd));
+    snd_seq_event_t *ev;
+    std::cout << "npfd = " << npfd << "\n";
+    while (1) {
+        if (poll(pfd, npfd, 100000) > 0) {
+            do {
+                snd_seq_event_input(dst->m_Seq, &ev);
+std::cout << "midi!\n";
+                snd_seq_free_event(ev);
+            } while (snd_seq_event_input_pending(dst->m_Seq, 0) > 0);
+        }  
+    }
+    std::cout << "Exiting loop\n";
+}
+
+
 bool CDst::connect()
 {
     if(!m_connected) {
@@ -83,6 +104,7 @@ bool CDst::connect()
         }
         m_Port = snd_seq_create_simple_port(m_Seq, m_name.c_str(), SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
         m_connected = true;
+        m_Thread = new std::thread(loop, this);
         return true;
     }
     return false;
