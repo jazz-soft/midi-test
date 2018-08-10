@@ -14,6 +14,16 @@ describe('MIDI messages', function() {
     port.connect();
     JZZ().refresh().and(function() {
       console.log(this.info());
+      port.disconnect();
+      done();
+    });
+  });
+  it('virtual-midi-out', function(done) {
+    var port = mt.MidiDst('Virtual MIDI-Out');
+    port.connect();
+    JZZ().refresh().and(function() {
+      console.log(this.info());
+      port.disconnect();
       done();
     });
   });
