@@ -93,13 +93,11 @@ void CDst::loop(CDst* dst)
                 snd_midi_event_t* midi;
                 if (snd_midi_event_new(SIZE, &midi)) return;
                 long len = snd_midi_event_decode(midi, buff, SIZE, ev);
+                CMidiData* data = new CMidiData((CMidiDst*)dst);
                 for (int i = 0; i < len; i++) {
-                  CMidiData* midi = new CMidiData((CMidiDst*)dst);
-                  for (size_t i = 0; i < len; i++) {
-                      midi->msg.push_back(buff[i]);
-                  }
-                  MidiCallback(midi);
+                    data->msg.push_back(buff[i]);
                 }
+                MidiCallback(data);
                 snd_seq_free_event(ev);
             } while (snd_seq_event_input_pending(dst->m_Seq, 0) > 0);
         }
