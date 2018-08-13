@@ -6,6 +6,8 @@
 #include "miditest.h"
 #include "miditest_linux.h"
 
+using namespace miditest;
+
 CMidiSrc* CMidi::CreateSrc(const std::string& name) { return new CSrc(name); }
 CMidiDst* CMidi::CreateDst(const std::string& name) { return new CDst(name); }
 
@@ -82,14 +84,25 @@ void CDst::loop(CDst* dst)
     pollfd *pfd = (pollfd*)alloca(npfd * sizeof(pollfd));
     snd_seq_event_t *ev;
     std::cout << "npfd = " << npfd << "\n";
-    while (1) {
-        if (poll(pfd, npfd, 100000) > 0) {
+    const int SIZE = 256;
+    unsigned char buff[SIZE];
+    while (dst->m_connected) {
+        if (poll(pfd, npfd, 1000) > 0) {
             do {
                 snd_seq_event_input(dst->m_Seq, &ev);
-std::cout << "midi!\n";
+                snd_midi_event_t* midi;
+                if (snd_midi_event_new(SIZE, &midi)) return;
+                long len = snd_midi_event_decode(midi, buff, SIZE, ev);
+                for (int i = 0; i < len; i++) {
+                  CMidiData* midi = new CMidiData((CMidiDst*)dst);
+                  for (size_t i = 0; i < len; i++) {
+                      midi->msg.push_back(buff[i]);
+                  }
+                  MidiCallback(midi);
+                }
                 snd_seq_free_event(ev);
             } while (snd_seq_event_input_pending(dst->m_Seq, 0) > 0);
-        }  
+        }
     }
     std::cout << "Exiting loop\n";
 }

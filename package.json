@@ -1,6 +1,6 @@
 {
   "name": "midi-test",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Coming soon...",
   "main": "build/Release/miditest",
   "scripts": {

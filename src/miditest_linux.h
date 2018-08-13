@@ -8,6 +8,7 @@ public:
     bool emit(const std::vector<unsigned char>& msg);
 protected:
     snd_seq_t* m_Seq;
+    snd_midi_event_t* m_Encoder;
     int m_Port;
 };
 
@@ -22,6 +23,7 @@ public:
 protected:
     static void loop(CDst*);
     snd_seq_t* m_Seq;
+    snd_midi_event_t* m_Encoder;
     int m_Port;
     std::thread* m_Thread;
 };
