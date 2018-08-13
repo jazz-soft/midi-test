@@ -1,7 +1,7 @@
 {
   "name": "midi-test",
   "version": "0.0.5",
-  "description": "Coming soon...",
+  "description": "Virtual MIDI ports for testing MIDI applications",
   "main": "build/Release/miditest",
   "scripts": {
     "test": "mocha",
@@ -26,5 +26,6 @@
   "devDependencies": {
     "jzz": "^0.5.3",
     "mocha": "^5.2.0"
-  }
+  },
+  "engines" : { "node" : ">=10.6.0" }
 }
