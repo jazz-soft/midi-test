@@ -13,7 +13,7 @@ Install: `npm install midi-test --save-dev`
 Manual rebuild (if needed): `node-gyp rebuild`
 
 ## API
-### Virtual MIDI-In
+### MIDI Source (Virtual MIDI-In)
 
     var MT = require('midi-test');
     var port = new MT.MidiSrc('VIRTUAL MIDI-In');
@@ -22,7 +22,7 @@ Manual rebuild (if needed): `node-gyp rebuild`
     //...
     port.disconnect();
 
-### Virtual MIDI-Out
+### MIDI Destination (Virtual MIDI-Out)
 
     var MT = require('midi-test');
     var port = new MT.MidiDst('VIRTUAL MIDI-Out');
