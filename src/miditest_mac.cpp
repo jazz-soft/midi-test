@@ -92,6 +92,7 @@ void MidiProc(const MIDIPacketList* pktlist, void* data, void* dummy)
 bool CDst::connect()
 {
     if (!m_connected && !MIDIDestinationCreate(GetMidiClient(), CFStringCreateWithCString(0, m_name.c_str(), kCFStringEncodingUTF8), MidiProc, this,  &m_Midi)) {
+      m_Queue.clear();
       m_connected = true;
       return true;
     }

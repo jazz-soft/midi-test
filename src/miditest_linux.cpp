@@ -93,11 +93,7 @@ void CDst::loop(CDst* dst)
                 snd_midi_event_t* midi;
                 if (snd_midi_event_new(SIZE, &midi)) return;
                 long len = snd_midi_event_decode(midi, buff, SIZE, ev);
-                CMidiData* data = new CMidiData((CMidiDst*)dst);
-                for (int i = 0; i < len; i++) {
-                    data->msg.push_back(buff[i]);
-                }
-                MidiCallback(data);
+                for (int i = 0; i < len; i++) dst->push(buff[i]);
                 snd_seq_free_event(ev);
             } while (snd_seq_event_input_pending(dst->m_Seq, 0) > 0);
         }
@@ -114,6 +110,7 @@ bool CDst::connect()
             return false;
         }
         m_Port = snd_seq_create_simple_port(m_Seq, m_name.c_str(), SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
+        m_Queue.clear();
         m_connected = true;
         m_Thread = new std::thread(loop, this);
         return true;
@@ -125,6 +122,7 @@ bool CDst::connect()
 bool CDst::disconnect()
 {
     if (m_connected) {
+        snd_seq_delete_simple_port(m_Seq, m_Port);
         snd_seq_close(m_Seq);
         m_connected = false;
         return true;
