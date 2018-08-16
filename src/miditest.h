@@ -38,7 +38,10 @@ class CMidiDst : public CMidi
 public:
     CMidiDst(const std::string& name) : CMidi(name) {}
     ~CMidiDst() {}
+    virtual void push(unsigned char c);
+protected:
     virtual bool threaded() { return true; }
+    std::vector<unsigned char> m_Queue;
 };
 
 

@@ -2,7 +2,7 @@
   "targets": [
     {
       "target_name": "miditest",
-      "sources": [ "src/miditest.cpp" ],
+      "sources": [ "src/miditest.cpp", "src/miditest_common.cpp" ],
       "conditions":
       [
         [

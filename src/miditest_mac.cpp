@@ -79,14 +79,15 @@ CDst::~CDst()
 
 void MidiProc(const MIDIPacketList* pktlist, void* data, void* dummy)
 {
+    CMidiDst* self = ((CMidiDst*)data);
     MIDIPacket* pkt = (MIDIPacket*)pktlist->packet;
     size_t count = pktlist->numPackets;
-    CMidiData* midi = new CMidiData((CMidiDst*)data);
     for (size_t i = 0; i < count; i++) {
-        for (size_t j = 0; j < pkt->length; j++) midi->msg.push_back(pkt->data[j]);
+        for (size_t j = 0; j < pkt->length; j++) self->push(pkt->data[j]);
+        pkt = MIDIPacketNext(pkt);
     }
-    MidiCallback(midi);
 }
+
 
 bool CDst::connect()
 {
