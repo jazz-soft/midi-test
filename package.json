@@ -1,6 +1,6 @@
 {
   "name": "midi-test",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Virtual MIDI ports for testing MIDI applications",
   "main": "build/Release/miditest",
   "scripts": {
@@ -16,13 +16,13 @@
     "midi",
     "test"
   ],
-  "author": "jazz-soft (https://jazz-soft.net/)",
+  "author": "jazz-soft (https://jazz-soft.net)",
   "license": "MIT",
   "gypfile": true,
   "bugs": {
     "url": "https://github.com/jazz-soft/midi-test/issues"
   },
-  "homepage": "https://github.com/jazz-soft/midi-test#readme",
+  "homepage": "https://jazz-soft.net",
   "devDependencies": {
     "jzz": "^0.5.4",
     "mocha": "^5.2.0"
