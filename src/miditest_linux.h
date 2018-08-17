@@ -26,4 +26,5 @@ protected:
     snd_midi_event_t* m_Encoder;
     int m_Port;
     std::thread* m_Thread;
+    int m_Pipe[2];
 };

@@ -79,15 +79,18 @@ CDst::~CDst()
 
 void CDst::loop(CDst* dst)
 {
-    std::cout << "Running loop\n";
     int npfd = snd_seq_poll_descriptors_count(dst->m_Seq, POLLIN);
-    pollfd *pfd = (pollfd*)alloca(npfd * sizeof(pollfd));
+    pollfd *pfd = new pollfd[npfd + 1];
+    snd_seq_poll_descriptors(dst->m_Seq, pfd, npfd, POLLIN);
+    pfd[npfd].fd = dst->m_Pipe[0];
+    pfd[npfd].events = POLLIN;
+    npfd++;
     snd_seq_event_t *ev;
-    std::cout << "npfd = " << npfd << "\n";
     const int SIZE = 256;
     unsigned char buff[SIZE];
-    while (dst->m_connected) {
-        if (poll(pfd, npfd, 1000) > 0) {
+    while (true) {
+        if (poll(pfd, npfd, 10000) > 0) {
+            if (!dst->m_connected) break;
             do {
                 snd_seq_event_input(dst->m_Seq, &ev);
                 snd_midi_event_t* midi;
@@ -98,13 +101,14 @@ void CDst::loop(CDst* dst)
             } while (snd_seq_event_input_pending(dst->m_Seq, 0) > 0);
         }
     }
-    std::cout << "Exiting loop\n";
+    delete[] pfd;
 }
 
 
 bool CDst::connect()
 {
     if(!m_connected) {
+        if (pipe(m_Pipe)) return false;
         if (snd_seq_open(&m_Seq, "default", SND_SEQ_OPEN_INPUT, 0)) {
             std::cout << "error 1\n";
             return false;
@@ -122,9 +126,11 @@ bool CDst::connect()
 bool CDst::disconnect()
 {
     if (m_connected) {
+        m_connected = false;
+        write(m_Pipe[1], "0", 1);
         snd_seq_delete_simple_port(m_Seq, m_Port);
         snd_seq_close(m_Seq);
-        m_connected = false;
+        m_Thread->join();
         return true;
     }
     return false;
