@@ -131,6 +131,8 @@ bool CDst::disconnect()
         snd_seq_delete_simple_port(m_Seq, m_Port);
         snd_seq_close(m_Seq);
         m_Thread->join();
+        close(m_Pipe[0]);
+        close(m_Pipe[1]);
         return true;
     }
     return false;
