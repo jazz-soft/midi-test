@@ -31,7 +31,7 @@ Manual rebuild (if needed): `node-gyp rebuild`
     //...
     port.disconnect();
 
-## Prerequisites
+## Developer notes
 
 **midi-test** currently works in **Linux** and **MacOS**.  
 **Windows** version may appear some day in the future, but it is not in the immediate plans.
