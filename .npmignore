@@ -1,5 +1,3 @@
 build/*
-.gitattributes
-.gitignore
-.travis.yml
+.*
 *.tgz
