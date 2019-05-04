@@ -1,6 +1,6 @@
 {
   "name": "midi-test",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Virtual MIDI ports for testing MIDI applications",
   "main": "build/Release/miditest",
   "scripts": {
@@ -12,7 +12,6 @@
     "url": "https://github.com/jazz-soft/midi-test.git"
   },
   "keywords": [
-    "MIDI",
     "midi",
     "test"
   ],
@@ -24,8 +23,8 @@
   },
   "homepage": "https://jazz-soft.net",
   "devDependencies": {
-    "jzz": "^0.7.3",
-    "mocha": "^6.0.2"
+    "jzz": "^0.7.5",
+    "mocha": "^6.1.4"
   },
   "engines": {
     "node": ">=10.6.0"
