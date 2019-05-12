@@ -1,8 +1,8 @@
 {
   "name": "midi-test",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Virtual MIDI ports for testing MIDI applications",
-  "main": "build/Release/miditest",
+  "main": "index.js",
   "scripts": {
     "test": "mocha",
     "install": "node-gyp rebuild"
@@ -23,7 +23,7 @@
   },
   "homepage": "https://jazz-soft.net",
   "devDependencies": {
-    "jzz": "^0.7.5",
+    "jzz": "^0.7.6",
     "mocha": "^6.1.4"
   },
   "engines": {
