@@ -1,11 +1,12 @@
 {
   "name": "midi-test",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Virtual MIDI ports for testing MIDI applications",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "install": "node-gyp rebuild"
+    "install": "node-gyp rebuild",
+    "lint": "eslint . test"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://jazz-soft.net",
   "bugs": "https://github.com/jazz-soft/midi-test/issues",
   "devDependencies": {
+    "eslint": "^6.0.1",
     "jzz": "^0.8.4",
     "mocha": "^6.1.4"
   },

@@ -1,5 +1,5 @@
 var readline = require('readline');
-const mt = require('.');
+var mt = require('.');
 var src = mt.MidiSrc('VIRTUAL MIDI-In');
 console.log('Opening ' + src.name + ':', src.connect());
 console.log('Enter MIDI sequence or Ctrl-C to terminate...');

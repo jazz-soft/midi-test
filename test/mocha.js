@@ -1,5 +1,4 @@
-﻿var assert = require('assert');
-var mt = require('..');
+﻿var mt = require('..');
 var JZZ = require('jzz');
 
 describe('MIDI messages', function() {
