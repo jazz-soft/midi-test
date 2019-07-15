@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - node
 os:
-  - linux
   - osx
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y libasound2-dev ; fi
