@@ -33,6 +33,11 @@ Manual rebuild (if needed): `node-gyp rebuild`
     //...
     port.disconnect();
 
+### TypeScript
+
+    import MT = require('midi-test');
+    //...
+
 ## Developer notes
 
 **midi-test** currently works in **Linux** and **MacOS**.  

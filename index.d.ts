@@ -36,5 +36,10 @@ interface MidiDstConstructor {
   (name: string): MidiDst;
 }
 
-export const MidiSrc: MidiSrcConstructor;
-export const MidiDst: MidiDstConstructor;
+interface MidiTest {
+  readonly MidiSrc: MidiSrcConstructor;
+  readonly MidiDst: MidiDstConstructor;
+}
+declare const mt: MidiTest;
+
+export = mt;
