@@ -9,6 +9,14 @@ interface MidiSrc {
   /** Emit MIDI message */
   readonly emit: (message: number[]) => void;
 }
+declare namespace MidiSrc {
+  interface Constructor {
+    /** Create new MidiDst object */
+    new (name: string): MidiSrc;
+    /** Create new MidiDst object */
+    (name: string): MidiSrc;
+  }
+}
 
 /** MIDI Destination -- a virtual MIDI-Out port */
 interface MidiDst {
@@ -21,24 +29,18 @@ interface MidiDst {
   /** User-defined MIDI message handler */
   receive: (message?: number[]) => void;
 }
-
-interface MidiSrcConstructor {
-  /** Create new MidiSrc object */
-  new (name: string): MidiSrc;
-  /** Create new MidiSrc object */
-  (name: string): MidiSrc;
-}
-
-interface MidiDstConstructor {
-  /** Create new MidiDst object */
-  new (name: string): MidiDst;
-  /** Create new MidiDst object */
-  (name: string): MidiDst;
+declare namespace MidiDst {
+  interface Constructor {
+    /** Create new MidiDst object */
+    new (name: string): MidiDst;
+    /** Create new MidiDst object */
+    (name: string): MidiDst;
+  }
 }
 
 interface MidiTest {
-  readonly MidiSrc: MidiSrcConstructor;
-  readonly MidiDst: MidiDstConstructor;
+  readonly MidiSrc: MidiSrc.Constructor;
+  readonly MidiDst: MidiDst.Constructor;
 }
 declare const mt: MidiTest;
 
