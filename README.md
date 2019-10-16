@@ -35,7 +35,7 @@ Manual rebuild (if needed): `node-gyp rebuild`
 
 ### TypeScript
 
-    import MT = require('midi-test');
+    import * as MT from 'midi-test'
     //...
 
 ## Developer notes

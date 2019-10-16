@@ -21,7 +21,7 @@
   "bugs": "https://github.com/jazz-soft/midi-test/issues",
   "devDependencies": {
     "eslint": "^6.5.1",
-    "jzz": "^0.9.4",
+    "jzz": "^0.9.5",
     "mocha": "^6.2.1"
   },
   "gypfile": true,
