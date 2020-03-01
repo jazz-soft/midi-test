@@ -22,16 +22,14 @@ CSrc::~CSrc()
 bool CSrc::connect()
 {
     std::cout << "Connecting CSrc: " << m_name << "\n";
-    m_connected = true;
-    return true;
+    return false;
 }
 
 
 bool CSrc::disconnect()
 {
     std::cout << "Disconnecting CSrc: " << m_name << "\n";
-    m_connected = false;
-    return true;
+    return false;
 }
 
 
@@ -65,14 +63,12 @@ CDst::~CDst()
 bool CDst::connect()
 {
     std::cout << "Connecting CDst: " << m_name << "\n";
-    m_connected = true;
-    return true;
+    return false;
 }
 
 
 bool CDst::disconnect()
 {
     std::cout << "Disconnecting CDst: " << m_name << "\n";
-    m_connected = false;
-    return true;
+    return false;
 }
