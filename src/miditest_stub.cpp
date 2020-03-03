@@ -9,26 +9,26 @@ CMidiDst* CMidi::CreateDst(const std::string& name) { return new CDst(name); }
 
 CSrc::CSrc(const std::string& name) : CMidiSrc(name)
 {
-    std::cout << "Creating CSrc: " << m_name << "\n";
+    //std::cout << "Creating CSrc: " << m_name << "\n";
 }
 
 
 CSrc::~CSrc()
 {
-    std::cout << "Destroying CSrc\n";
+    //std::cout << "Destroying CSrc\n";
 }
 
 
 bool CSrc::connect()
 {
-    std::cout << "Connecting CSrc: " << m_name << "\n";
+    //std::cout << "Connecting CSrc: " << m_name << "\n";
     return false;
 }
 
 
 bool CSrc::disconnect()
 {
-    std::cout << "Disconnecting CSrc: " << m_name << "\n";
+    //std::cout << "Disconnecting CSrc: " << m_name << "\n";
     return false;
 }
 
@@ -50,25 +50,25 @@ bool CSrc::emit(const std::vector<unsigned char>& msg)
 
 CDst::CDst(const std::string& name) : CMidiDst(name)
 {
-    std::cout << "Creating CDst: " << m_name << "\n";
+    //std::cout << "Creating CDst: " << m_name << "\n";
 }
 
 
 CDst::~CDst()
 {
-    std::cout << "Destroying CDst\n";
+    //std::cout << "Destroying CDst\n";
 }
 
 
 bool CDst::connect()
 {
-    std::cout << "Connecting CDst: " << m_name << "\n";
+    //std::cout << "Connecting CDst: " << m_name << "\n";
     return false;
 }
 
 
 bool CDst::disconnect()
 {
-    std::cout << "Disconnecting CDst: " << m_name << "\n";
+    //std::cout << "Disconnecting CDst: " << m_name << "\n";
     return false;
 }

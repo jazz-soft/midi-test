@@ -80,7 +80,7 @@ void start_thread(napi_env env)
 void stop_thread(napi_env env) { napi_release_threadsafe_function(TSF, napi_tsfn_release); }
 
 
-void destroy(napi_env env, void* data, void* hint) { std::cout << "delete!\n"; delete (CMidi*)data; }
+void destroy(napi_env env, void* data, void* hint) { delete (CMidi*)data; }
 
 
 napi_value name(napi_env env, napi_callback_info args)

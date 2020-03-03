@@ -28,7 +28,7 @@ CSrc::CSrc(const std::string& name) : CMidiSrc(name) {}
 CSrc::~CSrc()
 {
     disconnect();
-    std::cout << "Destroying MacOS CSrc\n";
+    //std::cout << "Destroying MacOS CSrc\n";
 }
 
 
@@ -73,7 +73,7 @@ CDst::CDst(const std::string& name) : CMidiDst(name) {}
 CDst::~CDst()
 {
     disconnect();
-    std::cout << "Destroying MacOS CDst\n";
+    //std::cout << "Destroying MacOS CDst\n";
 }
 
 

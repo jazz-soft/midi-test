@@ -18,7 +18,7 @@ CSrc::CSrc(const std::string& name) : CMidiSrc(name)
 
 CSrc::~CSrc()
 {
-    std::cout << "Destroying CSrc\n";
+    //std::cout << "Destroying CSrc\n";
 }
 
 
@@ -73,7 +73,7 @@ CDst::CDst(const std::string& name) : CMidiDst(name)
 
 CDst::~CDst()
 {
-    std::cout << "Destroying CDst\n";
+    //std::cout << "Destroying CDst\n";
 }
 
 
