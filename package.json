@@ -1,6 +1,6 @@
 {
   "name": "midi-test",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Virtual MIDI ports for testing MIDI applications",
   "main": "index.js",
   "scripts": {
