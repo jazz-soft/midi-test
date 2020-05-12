@@ -36,11 +36,13 @@ public:
 class CMidiDst : public CMidi
 {
 public:
-    CMidiDst(const std::string& name) : CMidi(name) {}
+    CMidiDst(const std::string& name) : CMidi(name), m_RS(0) {}
     ~CMidiDst() {}
     virtual void push(unsigned char c);
+    virtual void spit();
 protected:
     virtual bool threaded() { return true; }
+    unsigned char m_RS;
     std::vector<unsigned char> m_Queue;
 };
 

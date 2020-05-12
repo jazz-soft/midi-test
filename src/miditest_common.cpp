@@ -34,7 +34,12 @@ void CMidiDst::push(unsigned char c)
     m_Queue.push_back(c);
     if (m_Queue.size() < MidiLen(m_Queue[0])) return;
     if (m_Queue[0] == 0xf0 && c != 0xf7) return;
+    spit();
+}
 
+
+void CMidiDst::spit()
+{
     CMidiData* midi = new CMidiData(this);
     for (size_t i = 0; i < m_Queue.size(); i++) midi->msg.push_back(m_Queue[i]);
     m_Queue.clear();

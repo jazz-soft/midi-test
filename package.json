@@ -20,9 +20,9 @@
   "homepage": "https://jazz-soft.net",
   "bugs": "https://github.com/jazz-soft/midi-test/issues",
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "jzz": "^1.0.2",
-    "mocha": "^7.1.0"
+    "eslint": "^7.0.0",
+    "jzz": "^1.0.5",
+    "mocha": "^7.1.2"
   },
   "gypfile": true,
   "engines": {
