@@ -34,7 +34,7 @@ void CMidiDst::push(unsigned char c)
         m_RS = 0;
         if (c != 0xf7) return;
     }
-    else if (m_Queue[0] >= 0x80) { regular message
+    else if (m_Queue[0] >= 0x80) { // regular message
         m_RS = m_Queue[0];
         if (m_Queue.size() < MidiLen(m_RS)) return;
     }
