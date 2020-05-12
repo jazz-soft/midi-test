@@ -28,12 +28,19 @@ static size_t MidiLen(unsigned char c)
 
 void CMidiDst::push(unsigned char c)
 {
-    if (c < 0x80 && m_Queue.empty()) return;
-    if (c >= 0x80 && m_Queue.size() && m_Queue[0] != 0xf0) m_Queue.clear();
-    if (c == 0xf7 && m_Queue.empty()) return;
+    if (c >= 0x80 && m_Queue.size() && !(m_Queue[0] == 0xf0 && c == 0xf7)) spit(); // incomplete message
     m_Queue.push_back(c);
-    if (m_Queue.size() < MidiLen(m_Queue[0])) return;
-    if (m_Queue[0] == 0xf0 && c != 0xf7) return;
+    if (m_Queue[0] == 0xf0) { // sysex
+        m_RS = 0;
+        if (c != 0xf7) return;
+    }
+    else if (m_Queue[0] >= 0x80) { regular message
+        m_RS = m_Queue[0];
+        if (m_Queue.size() < MidiLen(m_RS)) return;
+    }
+    else { // running status message
+        if (m_Queue.size() < MidiLen(m_RS) - 1) return;
+    }
     spit();
 }
 
