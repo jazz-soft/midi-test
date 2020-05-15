@@ -1,4 +1,5 @@
 var mt = require('.');
+console.log('midi-test v.' + mt.version);
 var dst = mt.MidiDst('VIRTUAL MIDI-Out');
 console.log('Opening ' + dst.name + ':', dst.connect());
 dst.receive = function(msg) {
