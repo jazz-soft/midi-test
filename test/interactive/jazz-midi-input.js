@@ -1,13 +1,39 @@
 var readline = require('readline');
 var mt = require('../..');
 var jazz = require('jazz-midi');
+var portname = process.argv[2];
+if (typeof portname == 'undefined') portname = 'VIRTUAL MIDI PORT';
+
 console.log('midi-test v.' + mt.version);
 console.log('jazz-midi v.' + jazz.version);
-var src = mt.MidiSrc('VIRTUAL MIDI-In');
-console.log('Opening ' + src.name + ':', src.connect());
+
+if (exists(portname)) {
+  console.log('Port `' + portname + '` already exists!');
+  return;
+}
+
+var src = mt.MidiSrc(portname);
+if (!src.connect()) {
+  console.log('Cannot connect `' + portname + '`!');
+  return;
+}
+console.log('Connected `' + portname + '`...');
+
+var midi = new jazz.MIDI();
+var name = midi.MidiInOpen(0, function(t, msg){
+  console.log('Received:', msg);
+});
+console.log('opened: ', name);
+if (name != portname) {
+  console.log('Cannot open `' + portname + '`!');
+  return;
+}
+console.log('Opened `' + portname + '`...');
+
 console.log('Enter MIDI sequence or Ctrl-C to terminate...');
 console.log('Multiple messages can be separated by comma,');
 console.log('e.g.: c0 10, 90 40 7f');
+
 var rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 rl.on('line', function(line){
   var i, j, chunk, msg, x;
@@ -38,4 +64,17 @@ rl.on('line', function(line){
     console.log('Sending:', data.join(' '));
     src.emit(msg);
   }
+}).on('SIGINT', function() {
+  midi.MidiInClose(portname);
+  console.log('Closed `' + portname + '`...');
+  src.disconnect();
+  console.log('Disconnected `' + portname + '`...');
+  console.log('Thank you!');
+  process.exit();
 });
+
+function exists(name) {
+  var ports = jazz.MidiInList();
+  for (var i = 0; i < ports.length; i++) if (ports[i] == name) return true;
+  return false;
+}
