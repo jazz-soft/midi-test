@@ -20,12 +20,12 @@ if (!src.connect()) {
 console.log('Connected `' + portname + '`...');
 
 var midi = new jazz.MIDI();
-var name = midi.MidiInOpen(0, function(t, msg){
+var name = midi.MidiInOpen(portname, function(t, msg){
   console.log('Received:', msg);
 });
-console.log('opened: ', name);
 if (name != portname) {
   console.log('Cannot open `' + portname + '`!');
+  midi.MidiInClose(name);
   return;
 }
 console.log('Opened `' + portname + '`...');
