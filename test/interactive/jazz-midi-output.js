@@ -25,6 +25,7 @@ var name = midi.MidiOutOpen(portname);
 if (name != portname) {
   console.log('Cannot open `' + portname + '`!');
   midi.MidiOutClose(name);
+  dst.disconnect();
   return;
 }
 console.log('Opened `' + portname + '`...');
