@@ -59,9 +59,9 @@ bool CSrc::emit(const std::vector<unsigned char>& msg)
     snd_seq_ev_set_subs(&ev);
     snd_seq_ev_set_direct(&ev);
     snd_midi_event_encode(midi, msg.data(), msg.size(), &ev);
-    snd_midi_event_free(midi);
     snd_seq_event_output(m_Seq, &ev);
     snd_seq_drain_output(m_Seq);
+    snd_midi_event_free(midi);
     return true;
 }
 
