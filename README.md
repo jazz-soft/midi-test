@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/midi-test.svg)](https://www.npmjs.com/package/midi-test)
 [![npm](https://img.shields.io/npm/dt/midi-test.svg)](https://www.npmjs.com/package/midi-test)
-[![Build Status](https://travis-ci.org/jazz-soft/midi-test.svg?branch=master)](https://travis-ci.org/jazz-soft/midi-test)
+[![Build Status](https://travis-ci.com/jazz-soft/midi-test.svg?branch=master)](https://travis-ci.com/jazz-soft/midi-test)
 
 We would really appreciate your [**support**](https://jazz-soft.net/donate)!
 
