@@ -267,6 +267,36 @@ napi_value set_receive(napi_env env, napi_callback_info args)
 }
 
 
+napi_value get_busy(napi_env env, napi_callback_info args)
+{
+    napi_value self;
+    CMidi* ptr;
+    XX (napi_get_cb_info(env, args, 0, 0, &self, 0));
+    XX (napi_unwrap(env, self, (void**)&ptr));
+    napi_value value;
+    XX (napi_get_boolean(env, ptr->busy(), &value));
+    return value;
+}
+
+
+napi_value set_busy(napi_env env, napi_callback_info args)
+{
+    size_t argc = 1;
+    napi_value argv[1];
+    napi_value self;
+    napi_value value;
+    bool busy;
+    CMidi* ptr;
+    XX (napi_get_cb_info(env, args, &argc, argv, &self, 0));
+    XX (napi_unwrap(env, self, (void**)&ptr));
+    XX (napi_coerce_to_bool(env, argv[0], &value));
+    XX (napi_get_value_bool(env, value, &busy));
+    ptr->set_busy(busy);
+    XX (napi_get_undefined(env, &value));
+    return value;
+}
+
+
 napi_value init(napi_env env, napi_value exports)
 {
     napi_value ctor;
@@ -276,6 +306,7 @@ napi_value init(napi_env env, napi_value exports)
         { "disconnect", 0, disconnect, 0, 0, 0, napi_enumerable, 0 },
         { "connected", 0, 0, connected, 0, 0, napi_enumerable, 0 },
         { "name", 0, 0, name, 0, 0, napi_enumerable, 0 },
+        { "busy", 0, 0, get_busy, set_busy, 0, napi_enumerable, 0 },
         { "emit", 0, emit, 0, 0, 0, napi_enumerable, 0 }
     };
     napi_property_descriptor Dst[] = {
@@ -283,6 +314,7 @@ napi_value init(napi_env env, napi_value exports)
         { "disconnect", 0, disconnect, 0, 0, 0, napi_enumerable, 0 },
         { "connected", 0, 0, connected, 0, 0, napi_enumerable, 0 },
         { "name", 0, 0, name, 0, 0, napi_enumerable, 0 },
+        { "busy", 0, 0, get_busy, set_busy, 0, napi_enumerable, 0 },
         { "receive", 0, 0, get_receive, set_receive, 0, napi_enumerable, 0 }
     };
 

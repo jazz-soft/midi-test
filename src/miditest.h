@@ -10,14 +10,17 @@ public:
     virtual bool connect() = 0;
     virtual bool disconnect() = 0;
     virtual bool threaded() { return false; }
+    virtual void set_busy(bool b) { m_busy = b; }
     const std::string& name() const { return m_name; }
     bool connected() const { return m_connected; }
+    bool busy() const { return m_busy; }
     static CMidiSrc* CreateSrc(const std::string& name);
     static CMidiDst* CreateDst(const std::string& name);
 
 protected:
-    CMidi(const std::string& name) : m_connected(0), m_name(name) {}
+    CMidi(const std::string& name) : m_connected(0), m_busy(0), m_name(name) {}
     bool m_connected;
+    bool m_busy;
     std::string m_name;
 friend class CSrc;
 friend class CDst;
