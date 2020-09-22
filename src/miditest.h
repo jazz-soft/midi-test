@@ -10,7 +10,7 @@ public:
     virtual bool connect() = 0;
     virtual bool disconnect() = 0;
     virtual bool threaded() { return false; }
-    virtual void set_busy(bool b) { m_busy = b; }
+    virtual void set_busy(bool busy) { m_busy = busy; }
     const std::string& name() const { return m_name; }
     bool connected() const { return m_connected; }
     bool busy() const { return m_busy; }

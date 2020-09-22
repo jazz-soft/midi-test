@@ -52,6 +52,12 @@ bool CSrc::disconnect()
 }
 
 
+void CSrc::set_busy(bool busy)
+{
+    m_busy = busy;
+}
+
+
 bool CSrc::emit(const std::vector<unsigned char>& msg)
 {
     if (!m_connected || !msg.size()) return false;
@@ -107,4 +113,10 @@ bool CDst::disconnect()
       return true;
     }
     return false;
+}
+
+
+void CDst::set_busy(bool busy)
+{
+    m_busy = busy;
 }

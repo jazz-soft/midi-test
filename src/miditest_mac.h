@@ -5,6 +5,7 @@ public:
     ~CSrc();
     bool connect();
     bool disconnect();
+    void set_busy(bool);
     bool emit(const std::vector<unsigned char>& msg);
 protected:
     MIDIEndpointRef m_Midi;
@@ -18,6 +19,7 @@ public:
     ~CDst();
     bool connect();
     bool disconnect();
+    void set_busy(bool);
 protected:
     MIDIEndpointRef m_Midi;
 };

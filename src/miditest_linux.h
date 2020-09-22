@@ -5,6 +5,7 @@ public:
     ~CSrc();
     bool connect();
     bool disconnect();
+    void set_busy(bool);
     bool emit(const std::vector<unsigned char>& msg);
 protected:
     snd_seq_t* m_Seq;
@@ -20,6 +21,7 @@ public:
     ~CDst();
     bool connect();
     bool disconnect();
+    void set_busy(bool);
 protected:
     static void loop(CDst*);
     snd_seq_t* m_Seq;
