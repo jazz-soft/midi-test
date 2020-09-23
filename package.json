@@ -20,7 +20,7 @@
   "homepage": "https://jazz-soft.net",
   "bugs": "https://github.com/jazz-soft/midi-test/issues",
   "devDependencies": {
-    "eslint": "^7.8.1",
+    "eslint": "^7.9.0",
     "jzz": "^1.0.9",
     "mocha": "^8.1.3"
   },

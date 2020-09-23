@@ -1,4 +1,5 @@
-﻿var mt = require('..');
+﻿var assert = require('assert');
+var mt = require('..');
 var JZZ = require('jzz');
 
 describe('MIDI messages', function() {
@@ -25,5 +26,25 @@ describe('MIDI messages', function() {
       port.disconnect();
       done();
     });
+  });
+  it('virtual-midi-in-busy', function(done) {
+    var port = mt.MidiSrc('Virtual MIDI-In Busy');
+    port.connect();
+    assert.equal(port.busy, false);
+    port.busy = 'something';
+    assert.equal(port.busy, true);
+    port.busy = '';
+    assert.equal(port.busy, false);
+    done();
+  });
+  it('virtual-midi-out-busy', function(done) {
+    var port = mt.MidiDst('Virtual MIDI-Out Busy');
+    port.connect();
+    assert.equal(port.busy, false);
+    port.busy = 1;
+    assert.equal(port.busy, true);
+    port.busy = 0;
+    assert.equal(port.busy, false);
+    done();
   });
 });
