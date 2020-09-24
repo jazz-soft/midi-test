@@ -35,6 +35,7 @@ describe('MIDI messages', function() {
     assert.equal(port.busy, true);
     port.busy = '';
     assert.equal(port.busy, false);
+    port.disconnect();
     done();
   });
   it('virtual-midi-out-busy', function(done) {
@@ -45,6 +46,7 @@ describe('MIDI messages', function() {
     assert.equal(port.busy, true);
     port.busy = 0;
     assert.equal(port.busy, false);
+    port.disconnect();
     done();
   });
 });
