@@ -17,26 +17,32 @@ Manual rebuild (if needed): `node-gyp rebuild`
 ## API
 ### MIDI Source (Virtual MIDI-In)
 
-    var MT = require('midi-test');
-    var port = new MT.MidiSrc('VIRTUAL MIDI-In');
-    port.connect();
-    port.emit([0x90, 0x40, 0x7f]);
-    //...
-    port.disconnect();
+```js
+var MT = require('midi-test');
+var port = new MT.MidiSrc('VIRTUAL MIDI-In');
+port.connect();
+port.emit([0x90, 0x40, 0x7f]);
+//...
+port.disconnect();
+```
 
 ### MIDI Destination (Virtual MIDI-Out)
 
-    var MT = require('midi-test');
-    var port = new MT.MidiDst('VIRTUAL MIDI-Out');
-    port.receive = function(msg) { console.log('received:', msg); };
-    port.connect();
-    //...
-    port.disconnect();
+```js
+var MT = require('midi-test');
+var port = new MT.MidiDst('VIRTUAL MIDI-Out');
+port.receive = function(msg) { console.log('received:', msg); };
+port.connect();
+//...
+port.disconnect();
+```
 
 ### TypeScript
 
-    import * as MT from 'midi-test'
-    //...
+```ts
+import * as MT from 'midi-test'
+//...
+```
 
 ## Developer notes
 
@@ -53,7 +59,7 @@ it may not work properly in virtual Linux environments such as the one at [**tra
 To make your test work at **travis-ci**, run it in osx.  
 To do so, add the following lines in your *.travis.yml*:
 
-    os:
-      - osx
-
-
+```
+os:
+  - osx
+```
