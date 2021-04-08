@@ -14,15 +14,16 @@
   },
   "keywords": [
     "midi",
+    "testing",
     "test"
   ],
   "author": "jazz-soft (https://jazz-soft.net)",
   "homepage": "https://jazz-soft.net",
   "bugs": "https://github.com/jazz-soft/midi-test/issues",
   "devDependencies": {
-    "eslint": "^7.9.0",
-    "jzz": "^1.0.9",
-    "mocha": "^8.1.3"
+    "eslint": "^7.23.0",
+    "jzz": "^1.2.7",
+    "mocha": "^8.3.2"
   },
   "gypfile": true,
   "engines": {

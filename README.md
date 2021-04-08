@@ -8,7 +8,7 @@ We would really appreciate your [**support**](https://jazz-soft.net/donate)!
 
 ## Virtual MIDI ports for testing MIDI applications
 
-See also: [**web-midi-test**](https://github.com/jazz-soft/web-midi-test)
+See also: [**web-midi-test**](https://github.com/jazz-soft/web-midi-test), [**test-midi-files**](https://github.com/jazz-soft/test-midi-files)
 
 Install: `npm install midi-test --save-dev`
 
