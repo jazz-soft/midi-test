@@ -1,7 +1,16 @@
 name: build
 on: [push, pull_request]
 jobs:
-  build:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+    - run: npm install
+    - run: npm test
+  build-linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -10,4 +19,3 @@ jobs:
         node-version: '14.x'
     - run: sudo apt-get install -y libasound2-dev
     - run: npm install
-    - run: npm test
