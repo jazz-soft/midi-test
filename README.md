@@ -54,12 +54,20 @@ and the full stack of [**node-gyp**](https://www.npmjs.com/package/node-gyp) bui
 Linux build also requires the ALSA libraries: `apt-get install libasound2-dev`
 
 Since the Linux version needs special permissions to access the computer's sound system,  
-it may not work properly in virtual Linux environments such as the one at [**travis-ci**](https://travis-ci.org).
+it may not work properly in virtual Linux environments such as the one at [**Travis-CI**](https://travis-ci.org)
+or [**GitHub Actions**](https://docs.github.com/en/actions).
 
-To make your test work at **travis-ci**, run it in osx.  
-To do so, add the following lines in your *.travis.yml*:
-
+To make your test work with **Travis-CI** or **GitHub Actions**, run it on **MacOS**.  
+in `.travis.yml`:
 ```
 os:
   - osx
+...
+```
+in `.github/workflows/*.yml`:
+```
+jobs:
+  build-macos:
+    runs-on: macos-latest
+  ...
 ```
