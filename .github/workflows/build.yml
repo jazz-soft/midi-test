@@ -8,5 +8,6 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '14.x'
+    - run: apt-get install -y libasound2-dev
     - run: npm install
     - run: npm test
