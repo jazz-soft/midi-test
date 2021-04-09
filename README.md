@@ -4,8 +4,6 @@
 [![npm](https://img.shields.io/npm/dt/midi-test.svg)](https://www.npmjs.com/package/midi-test)
 [![build](https://github.com/jazz-soft/midi-test/actions/workflows/build.yml/badge.svg)](https://github.com/jazz-soft/midi-test/actions)
 
-We would really appreciate your [**support**](https://jazz-soft.net/donate)!
-
 ## Virtual MIDI ports for testing MIDI applications
 
 See also: [**web-midi-test**](https://github.com/jazz-soft/web-midi-test), [**test-midi-files**](https://github.com/jazz-soft/test-midi-files)
