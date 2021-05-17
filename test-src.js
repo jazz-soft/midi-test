@@ -3,6 +3,10 @@ var mt = require('.');
 console.log('midi-test v.' + mt.version);
 var src = mt.MidiSrc('VIRTUAL MIDI-In');
 console.log('Opening ' + src.name + ':', src.connect());
+if (!src.connected) {
+  console.log('Could not open ' + src.name + '!');
+  process.exit(0);
+}
 console.log('Enter MIDI sequence or Ctrl-C to terminate...');
 console.log('Multiple messages can be separated by comma,');
 console.log('e.g.: c0 10, 90 40 7f');

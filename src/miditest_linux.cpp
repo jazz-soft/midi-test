@@ -26,7 +26,6 @@ bool CSrc::connect()
 {
     if(!m_connected) {
         if (snd_seq_open(&m_Seq, "default", SND_SEQ_OPEN_OUTPUT, 0)) {
-            std::cout << "error 1\n";
             return false;
         }
         m_Port = snd_seq_create_simple_port(m_Seq, m_name.c_str(), SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
@@ -116,7 +115,6 @@ bool CDst::connect()
     if(!m_connected) {
         if (pipe(m_Pipe)) return false;
         if (snd_seq_open(&m_Seq, "default", SND_SEQ_OPEN_INPUT, 0)) {
-            std::cout << "error 1\n";
             return false;
         }
         m_Port = snd_seq_create_simple_port(m_Seq, m_name.c_str(), SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
