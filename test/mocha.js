@@ -3,6 +3,7 @@ var mt = require('..');
 var JZZ = require('jzz');
 
 describe('MIDI messages', function() {
+  this.timeout(5000);
   it('jzz', function(done) {
     JZZ().and(function() {
       console.log(this.info());
