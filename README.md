@@ -69,3 +69,9 @@ jobs:
     runs-on: macos-latest
   ...
 ```
+
+If you are getting a build error related to Python 3.12, you may want to add this build step
+(see the [build.yml](https://github.com/jazz-soft/midi-test/blob/master/.github/workflows/build.yml) file):
+```
+- run: python -m pip install --upgrade packaging pip setuptools
+```
