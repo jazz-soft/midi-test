@@ -36,7 +36,7 @@ std::string read_utf8(napi_env env, napi_value obj)
 
 
 napi_value MidiThread(napi_env env, napi_callback_info args) { return 0; }
-void FinalizeThread(napi_env env, void* finalize_data, void* finalize_hint) { /* std::cout << "Finalize!!!\n"; */ }
+void FinalizeThread(node_api_nogc_env env, void* finalize_data, void* finalize_hint) { /* std::cout << "Finalize!!!\n"; */ }
 void MidiCallback(CMidiData* data) { napi_call_threadsafe_function(TSF, data, napi_tsfn_nonblocking); }
 
 
@@ -80,7 +80,7 @@ void start_thread(napi_env env)
 void stop_thread(napi_env env) { napi_release_threadsafe_function(TSF, napi_tsfn_release); }
 
 
-void destroy(napi_env env, void* data, void* hint) { delete (CMidi*)data; }
+void destroy(node_api_nogc_env env, void* data, void* hint) { delete (CMidi*)data; }
 
 
 napi_value name(napi_env env, napi_callback_info args)

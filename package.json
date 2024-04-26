@@ -21,10 +21,10 @@
   "homepage": "https://jazz-soft.net",
   "bugs": "https://github.com/jazz-soft/midi-test/issues",
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "^9.1.1",
     "jazz-midi": "^1.7.9",
-    "jzz": "^1.8.1",
-    "mocha": "^10.3.0"
+    "jzz": "^1.8.2",
+    "mocha": "^10.4.0"
   },
   "gypfile": true,
   "engines": {
