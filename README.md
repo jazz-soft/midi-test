@@ -47,7 +47,7 @@ import * as MT from 'midi-test'
 **midi-test** currently works in **Linux** and **MacOS**.  
 **Windows** version may appear some day in the future, but it is not in the immediate plans.
 
-This package requires **Node.js v20 or above**,
+This package requires **Node.js v18 or above**,
 and the full stack of [**node-gyp**](https://www.npmjs.com/package/node-gyp) build tools.  
 (for older versions of Node please use **midi-test v1.2.9**)  
 Linux build also requires the ALSA libraries: `apt-get install libasound2-dev`
